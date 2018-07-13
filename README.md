@@ -2,6 +2,8 @@
 ![alt text](https://raw.githubusercontent.com/summonholmes/hmm-pandas/master/example.png)
 Regarding the Hidden Markov Model (HMM) and its associated algorithms (Forward, Forward-Backward, Viterbi), much of the research, materials, and implementations are mathematically convoluted.  This project presents the HMM and its capabilities using Pandas dataframes.  The intention is to simplify the HMM as much as possible, and to create a visually appealing representations of the HMM; while preserving the functionality of existing implementations.  In addition, detailed comments are provided throughout the code.  Therefore, the user should have much less trouble understanding the basic principles behind HMMs.
 
+For the Viterbi algorithm, the observations describe your average programmer.  The hidden states describe how the programmer is feeling.  This script will predict the most likely sequence of hidden states for the programmer.
+
 This project is a work in progress, and only the Viterbi algorithm has been completed.  Later on, this project will also attempt to translate the algorithms into their vectorized counterparts.
 
 ## Getting Started
