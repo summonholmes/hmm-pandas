@@ -1,28 +1,41 @@
-"""Example taken from https://en.wikipedia.org/wiki/Viterbi_algorithm"""
+"""Based off of https://en.wikipedia.org/wiki/Viterbi_algorithm"""
 from pandas import DataFrame
+from seaborn import light_palette
 
-### Initialize tuples of conditions, observations is the input
-observations = ('Normal', 'Cold', 'Dizzy')
-hidden_states = ("Healthy", "Fever")  # The confounding factors
+## Initialize tuples of conditions, observations is the input
+observations = ("Eating Pizza", "Browsing Reddit", "Drinking Mountain Dew",
+                "Eating Doritos", "Wearing Trenchcoat & Fedora")
+hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
+                 "Thirsty")  # The confounding factors
 
-### Initialize all dataframes
 trans_prob_df = DataFrame(  # Probability of transition
     data={ # from health to fever, vice-versa, or static
-        "Healthy": [0.7, 0.4],
-        "Fever": [0.3, 0.6]
-    },
+        "Depressed": [0.20, 0.25, 0.1, 0.2, 0.2],
+        "Confident": [0.15, 0.25, 0.1, 0.2, 0.25],
+        "Tired": [0.25, 0.1, 0.3, 0.1, 0.15],
+        "Hungry": [0.2, 0.2, 0.25, 0.3, 0.3],
+        "Thirsty": [0.2, 0.2, 0.25, 0.2, 0.1]
+    }, # All should vertically sum to 1
     index=hidden_states)
 
 emit_prob_df = DataFrame(  # Probability of symptom emission
     data={ # Normal when healthy, normal when 
-        "Normal": [0.5, 0.1], # fever, etc.
-        "Cold": [0.4, 0.3],
-        "Dizzy": [0.1, 0.6]
-    },
+        "Eating Pizza": [0.2, 0.1, 0.1, 0.35, 0.2], # fever, etc.
+        "Browsing Reddit": [0.2, 0.1, 0.35, 0.1, 0.2],
+        "Drinking Mountain Dew": [0.3, 0.1, 0.3, 0.2, 0.3],
+        "Eating Doritos": [0.2, 0.1, 0.15, 0.15, 0.15],
+        "Wearing Trenchcoat & Fedora": [0.1, 0.6, 0.1, 0.2, 0.15],
+    }, # All should vertically sum to 1
     index=hidden_states)
 
 ### Initialize starting probabilities
-start_probs = {"Healthy": 0.6, "Fever": 0.4}
+start_probs = {
+    "Depressed": 0.1,
+    "Confident": 0.4,
+    "Tired": 0.1,
+    "Hungry": 0.2,
+    "Thirsty": 0.2
+}
 
 ### Dynammic Programming Matrix
 viterbi_df = DataFrame(index=hidden_states)
@@ -55,7 +68,8 @@ for i in range(len(observations) - 2, -1, -1):  # Countdown from previous
     dyn_prog_path.insert(  # column, then insert max previous state
         0, viterbi_df.iloc[:, i].idxmax())  # at index 0
 print("The hidden states are most likely " + ' '.join(dyn_prog_path) + \
-    " with a probability of %s" % max_resulting_prob + "\n")
+    " with a final probability of %s" % max_resulting_prob + "\n")
 
 ### Print dynammic programming matrix
-print(viterbi_df)  # DONE!
+viterbi_df.style.background_gradient(
+    cmap=light_palette("green", as_cmap=True))  # DONE!
