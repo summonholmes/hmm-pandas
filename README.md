@@ -11,8 +11,7 @@ This project is a work in progress, and only the Viterbi algorithm has been comp
 This program requires few dependences and should be trivial to set up.  However, an in-depth understanding of the HMM and its associated algorithms requires some knowledge of bioinformatics, data science, and machine learning.
 
 ## Notes
-* I'd recommend using these scripts with Jupyter Notebook via VSCode, Atom's Hydrogen, Pycharm, or your web browser.
-* Occassionally, there may be ties that occur during the traceback phase of the dynamic programming process.  This program lets Pandas stochastically select the tie breaker.
+Occassionally, there may be ties that occur during the traceback phase of the dynamic programming process.  This program lets Pandas stochastically select the tie breaker.
 
 ### Dependencies
 1. Install the following dependencies:
@@ -20,11 +19,4 @@ This program requires few dependences and should be trivial to set up.  However,
 * python3-seaborn
 
 ### Usage:
-#### Mac/Linux/Unix
-```
-$ python3 /path/to/viterbi_pandas.py
-```
-#### Windows
-```
-C:\path\to\main.py C:\path\to\python3.exe viterbi_pandas.py
-```
+I'd recommend using these scripts with Jupyter Notebook via VSCode, Atom's Hydrogen, Pycharm, or your web browser.
