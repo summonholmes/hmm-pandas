@@ -9,7 +9,7 @@ hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
 
 trans_prob_df = DataFrame(  # Probability of transition
-    data={ # from health to fever, vice-versa, or static
+    data={ # from mood to mood
         "Depressed": [0.20, 0.25, 0.1, 0.2, 0.2],
         "Confident": [0.15, 0.25, 0.1, 0.2, 0.25],
         "Tired": [0.25, 0.1, 0.3, 0.1, 0.15],
@@ -18,7 +18,7 @@ trans_prob_df = DataFrame(  # Probability of transition
     }, # All should vertically sum to 1
     index=hidden_states)
 
-emit_prob_df = DataFrame(  # Probability of symptom emission
+emit_prob_df = DataFrame(  # Probability of event
     data={ # Normal when healthy, normal when 
         "Eating Pizza": [0.2, 0.1, 0.1, 0.35, 0.2], # fever, etc.
         "Browsing Reddit": [0.2, 0.1, 0.35, 0.1, 0.2],
