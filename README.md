@@ -7,13 +7,13 @@ Regarding the Hidden Markov Model (HMM) and its associated algorithms (Forward, 
 
 For the Viterbi algorithm, a set of observations and hidden states are defined.  The observations describe your average programmer.  What is the programmer wearing, eating, or drinking?  The hidden states describe how the programmer is feeling.  Does the programmer have a high and mighty attitude?  The 'viterbi_pandas.py' script will predict the most likely sequence of hidden states for the programmer when provided a sequence of observations.
 
-This project is a work in progress, and only the Viterbi algorithm has been completed.  Later on, this project will also attempt to translate the algorithms into their vectorized counterparts.
+This project is a work in progress, and only the Viterbi algorithm is available.  Later on, this project will also attempt to translate the algorithms into their vectorized counterparts.
 
 ## Getting Started
 This project requires few dependences and should be trivial to set up.  However, an in-depth understanding of the HMM and its associated algorithms requires some knowledge of probability theory, data science, and dynammic programming.
 
 ## Notes
-Occassionally, there may be ties that occur during the traceback phase of the dynamic programming process.  This project allows Pandas to stochastically select the tie breaking hidden state.
+Occassionally, there may be ties that occur during the dynamic programming process.  This project allows Pandas to stochastically select the tie breaking hidden state.
 
 ### Dependencies
 * python3-pandas
