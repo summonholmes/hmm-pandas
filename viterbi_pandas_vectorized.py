@@ -49,6 +49,24 @@ for i in range(1, len(observations)):  # Offset from Probability 0
             npmax, axis=0)  # Vectorize maximums for the previous column
     viterbi_df["Probability {}".format(
         i)] = max_trans_prob_df * emit_prob_df.loc[:, observations[i]]
+
+    max_resulting_prob = viterbi_df.iloc[:, -1].max()
+dyn_prog_path = [viterbi_df.iloc[:, -1].idxmax()]
+
+### Traceback (Manual Recursive Demostration, using known sequence)
+where(viterbi_df.iloc[:, 3] * trans_prob_df.loc[:, "Confident"] *
+      emit_prob_df.loc["Confident", "Wearing Trenchcoat & Fedora"] ==
+      max_resulting_prob)[0][0]
+where(viterbi_df.iloc[:, 2] * trans_prob_df.loc[:, "Thirsty"] *
+      emit_prob_df.loc["Thirsty", "Eating Doritos"] == viterbi_df.iloc[4, 3])[
+          0][0]  # Done
+where(viterbi_df.iloc[:, 1] * trans_prob_df.loc[:, "Tired"] *
+      emit_prob_df.loc["Tired", "Drinking Mountain Dew"] == viterbi_df.iloc[
+          2, 2])[0][0]  # Done
+where(viterbi_df.iloc[:, 0] * trans_prob_df.loc[:, "Tired"] *
+      emit_prob_df.loc["Tired", "Browsing Reddit"] == viterbi_df.iloc[2, 1])[
+          0][0]  # Done
+where(viterbi_df.iloc[:, 0] == viterbi_df.iloc[3, 0])[0][0]  # Done
  
 ### Print dynammic programming matrix
 viterbi_df.style.background_gradient(
