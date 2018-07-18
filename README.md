@@ -12,7 +12,7 @@ This project is a work in progress, and only the Viterbi algorithm is available.
 This project requires few dependences and should be trivial to set up.  However, an in-depth understanding of the HMM and its associated algorithms requires some knowledge of probability theory, data science, and dynamic programming.
 
 ## Notes
-Occassionally, there may be ties that occur during the dynamic programming process.  This project allows Pandas to stochastically select the tie breaking hidden state.
+Occassionally, there may be ties that occur during the dynamic programming process.  Pandas selects the upper-most value in the column to determine the tie breaking hidden state.
 
 ### Dependencies
 * python3-pandas
