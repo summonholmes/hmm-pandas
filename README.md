@@ -17,6 +17,7 @@ Occassionally, there may be ties that occur during the dynamic programming proce
 
 ### Dependencies
 * python3-pandas
+* python3-numpy
 * python3-seaborn
 
 ### Usage:
