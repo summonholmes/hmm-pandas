@@ -20,4 +20,4 @@ Occassionally, there may be ties that occur during the dynamic programming proce
 * python3-seaborn
 
 ### Usage:
-I'd recommend using these scripts interactively with Jupyter Notebook via VSCode, Atom's Hydrogen, Pycharm, or your web browser.
+I'd recommend using these scripts interactively with Jupyter Notebook via VSCode, Atom's Hydrogen, Pycharm, or your web browser.  Spyder and/or IPython will also work.  Do not use standard Python.
