@@ -47,9 +47,15 @@ for i in range(1, len(observations)):  # Offset from Probability 0
     viterbi_df["Probability {}".format(  # Each column all in one go
         i)] = max_trans_prob_df * emit_prob_df.loc[:, observations[i]]
 
+### Provide the entire matrix with highest values darkest
+viterbi_traceback_df = viterbi_df.style.background_gradient(
+    cmap=light_palette("green", as_cmap=True))
+
 ### At the last column, use the maximum value to begin traceback
 traceback_prob = [viterbi_df.iloc[:, -1].max()]
 dyn_prog_path = [viterbi_df.iloc[:, -1].idxmax()]  # And its index
+viterbi_traceback_df.highlight_max( # Highlight it
+    color='red', subset=IndexSlice[[viterbi_df.columns[-1]]])
 
 ### Start traceback
 for i in range(len(observations) - 1, 0, -1):  # Countdown
@@ -61,16 +67,9 @@ for i in range(len(observations) - 1, 0, -1):  # Countdown
     # Record the value and its state
     traceback_prob.insert(0, viterbi_df.iloc[traceback_loc, i - 1])
     dyn_prog_path.insert(0, viterbi_df.index[traceback_loc])
-
-### Provide the entire matrix with highest values darkest
-viterbi_traceback_df = viterbi_df.style.background_gradient(
-    cmap=light_palette("green", as_cmap=True))
-
-### Now index using the generated lists and columns
-for i in range(len(observations)):
     viterbi_traceback_df = viterbi_traceback_df.applymap(
         lambda x: "background-color: red",  # Color the path red
-        subset=IndexSlice[[dyn_prog_path[i]], [viterbi_df.columns[i]]])
+        subset=IndexSlice[[dyn_prog_path[0]], [viterbi_df.columns[i - 1]]])
 
 ### Print dynammic programming matrix and traceback results
 print("The observations:", ', '.join(observations))
