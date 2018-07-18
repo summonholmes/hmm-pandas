@@ -73,6 +73,7 @@ for i in range(len(observations)):
         subset=IndexSlice[[dyn_prog_path[i]], [viterbi_df.columns[i]]])
 
 ### Print dynammic programming matrix and traceback results
+print("The observations:", ', '.join(observations))
 print("The hidden states are most likely " + ' '.join(dyn_prog_path) + \
     " with a final probability of %s" % traceback_prob[-1] + "\n")
 viterbi_traceback_df
