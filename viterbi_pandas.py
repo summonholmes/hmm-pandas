@@ -5,7 +5,7 @@ from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Eating Pizza", "Browsing Reddit", "Drinking Mountain Dew",
-                "Eating Doritos", "Wearing Trenchcoat & Fedora") * 10
+                "Eating Doritos", "Wearing Trenchcoat & Fedora")
 hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
 
