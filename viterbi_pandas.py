@@ -55,7 +55,7 @@ viterbi_traceback_df = viterbi_df.style.background_gradient(
 traceback_prob = [viterbi_df.iloc[:, -1].max()]
 dyn_prog_path = [viterbi_df.iloc[:, -1].idxmax()]  # And its index
 viterbi_traceback_df.highlight_max( # Highlight it
-    color='red', subset=IndexSlice[[viterbi_df.columns[-1]]])
+    color="red", subset=IndexSlice[[viterbi_df.columns[-1]]])
 
 ### Start traceback
 for i in range(len(observations) - 1, 0, -1):  # Countdown
@@ -72,7 +72,7 @@ for i in range(len(observations) - 1, 0, -1):  # Countdown
         subset=IndexSlice[[dyn_prog_path[0]], [viterbi_df.columns[i - 1]]])
 
 ### Print dynammic programming matrix and traceback results
-print("The observations:", ', '.join(observations))
-print("The hidden states are most likely: " + ', '.join(dyn_prog_path) + \
+print("The observations:", ", ".join(observations))
+print("The hidden states are most likely: " + ", ".join(dyn_prog_path) + \
     "; with a final probability of %s" % traceback_prob[-1] + "\n")
 viterbi_traceback_df
