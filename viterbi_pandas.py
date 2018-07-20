@@ -1,6 +1,6 @@
 """Based off of https://en.wikipedia.org/wiki/Viterbi_algorithm"""
 from pandas import DataFrame, IndexSlice
-from numpy import where, max as npmax, sum as npsum
+from numpy import where
 from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
@@ -42,7 +42,7 @@ viterbi_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
 ### Start dynammic programming
 for i, observation in enumerate(observations[1:]):
     max_trans_prob_df = trans_prob_df.multiply(  # Offset by 1
-        viterbi_df.iloc[:, i], axis="index").apply(npmax)
+        viterbi_df.iloc[:, i], axis="index").max()
     # Vectorize maximums for the previous column
     viterbi_df["({}) {}".format(
         i + 1,

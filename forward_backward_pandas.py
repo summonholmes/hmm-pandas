@@ -1,5 +1,4 @@
 from pandas import DataFrame
-from numpy import sum as npsum
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Wearing Trenchcoat & Fedora", "Browsing Reddit",
@@ -41,7 +40,7 @@ forward_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
 ### Start forward part - 1st pass
 for i, observation in enumerate(observations[1:]):
     previous_forward_sum = trans_prob_df.iloc[:, :-1].multiply(
-        forward_df.iloc[:, i], axis="index").apply(npsum)
+        forward_df.iloc[:, i], axis="index").sum()
     forward_df["({}) {}".format(
         i + 1,
         observation)] = previous_forward_sum * emit_prob_df.loc[:, observation]
