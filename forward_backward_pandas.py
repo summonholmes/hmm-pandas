@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 from pandas import DataFrame, IndexSlice
 from numpy import sum as npsum
 from seaborn import light_palette
+=======
+from pandas import DataFrame
+from numpy import max as npmax, sum as npsum
+>>>>>>> 61bc57a8d3757f847aeaa9231179581f66df382c
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Eating Pizza", "Browsing Reddit", "Drinking Mountain Dew",
@@ -39,7 +44,11 @@ start_probs = DataFrame(
 ### Initialize forward dataframe
 forward_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
 
+<<<<<<< HEAD
 ### Start forward part - 1st pass
+=======
+### Start forward part
+>>>>>>> 61bc57a8d3757f847aeaa9231179581f66df382c
 for i, observation in enumerate(observations[1:]):
     previous_forward_sum = trans_prob_df.iloc[:, :-1].multiply(
         forward_df.iloc[:, i], axis="index").apply(npsum)
@@ -48,6 +57,7 @@ for i, observation in enumerate(observations[1:]):
 
 ### Calculate forward probability
 forward_prob = (forward_df.iloc[:, -1] * trans_prob_df.iloc[:, -1]).sum()
+<<<<<<< HEAD
 
 ### Initialize backward dataframe
 backward_df = DataFrame(data={
@@ -80,3 +90,5 @@ print("The observations:", ", ".join(observations))
 print("Posterior marginals are read top-down")
 posterior_df.style.apply(
     lambda x: ["background-color: {}".format(colors[x.name])] * len(x))
+=======
+>>>>>>> 61bc57a8d3757f847aeaa9231179581f66df382c
