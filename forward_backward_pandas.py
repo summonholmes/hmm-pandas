@@ -1,6 +1,5 @@
 from pandas import DataFrame
 from numpy import sum as npsum
-from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Wearing Trenchcoat & Fedora", "Browsing Reddit",
