@@ -83,7 +83,7 @@ posterior_df_style = posterior_df.style.apply(  # Color the columns
 
 ### Print final results
 print("The observations:", ", ".join(observations))
-print("The forward probability:", forward_prob)
-print("The backward probability:", backward_prob)
+print("The summed forward probability:", forward_prob)
+print("The summed backward probability:", backward_prob)
 print("Posterior marginals are read top-down")
 posterior_df_style.highlight_max(color="black")  # Highlight maximums
