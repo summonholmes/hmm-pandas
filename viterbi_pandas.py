@@ -4,8 +4,8 @@ from numpy import where, max as npmax, sum as npsum
 from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
-observations = ("Eating Pizza", "Browsing Reddit", "Drinking Mountain Dew",
-                "Eating Doritos", "Wearing Trenchcoat & Fedora")
+observations = ("Wearing Trenchcoat & Fedora", "Browsing Reddit",
+                "Drinking Mountain Dew", "Eating Doritos", "Eating Pizza")
 hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
 
@@ -33,7 +33,7 @@ emit_prob_df = DataFrame(
 
 ### Initialize starting probabilities
 start_probs = DataFrame(
-    data={"Probability 0": (0.10, 0.40, 0.10, 0.20, 0.20)},
+    data={"(0) {}".format(observations[0]): (0.10, 0.40, 0.10, 0.20, 0.20)},
     index=hidden_states)
 
 ### Initialize dynammic programming matrix at probability 0
@@ -44,8 +44,9 @@ for i, observation in enumerate(observations[1:]):
     max_trans_prob_df = trans_prob_df.multiply(  # Offset by 1
         viterbi_df.iloc[:, i], axis="index").apply(npmax)
     # Vectorize maximums for the previous column
-    viterbi_df["Probability {}".format(  # Then create column all at once
-        i + 1)] = max_trans_prob_df * emit_prob_df.loc[:, observation]
+    viterbi_df["({}) {}".format(
+        i + 1,
+        observation)] = max_trans_prob_df * emit_prob_df.loc[:, observation]
 
 ### Provide the entire matrix with highest values darkest
 viterbi_traceback_df = viterbi_df.style.background_gradient(
