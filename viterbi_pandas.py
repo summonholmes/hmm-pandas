@@ -58,17 +58,23 @@ dyn_prog_path = [viterbi_df.iloc[:, -1].idxmax()]  # And its index
 viterbi_traceback_df.highlight_max(  # Highlight it
     color="red", subset=IndexSlice[[viterbi_df.columns[-1]]])
 
+traceback_loc = viterbi_df.loc[
+    viterbi_df.iloc[:, 3] * trans_prob_df.loc[:, dyn_prog_path[0]] *
+    emit_prob_df.loc[dyn_prog_path[0], observations[4]] == traceback_prob[
+        0]].index[0]
+
 ### Start traceback
 for i, observation in zip(  # Reverse enumerate with offset
         range(len(observations) - 2, -1, -1), reversed(observations[1:])):
     # Isolate the previous location that gives the current probability
-    traceback_loc = where(viterbi_df.iloc[:, i] *
-                          trans_prob_df.loc[:, dyn_prog_path[0]] *
-                          emit_prob_df.loc[dyn_prog_path[0], observation] ==
-                          traceback_prob[0])[0][0]
+    traceback_loc = viterbi_df.loc[
+        viterbi_df.iloc[:, i] * trans_prob_df.loc[:, dyn_prog_path[0]] *
+        emit_prob_df.loc[dyn_prog_path[0], observation] == traceback_prob[
+            0]].index[0]
     # Record the value and its state
-    traceback_prob.insert(0, viterbi_df.iloc[traceback_loc, i])
-    dyn_prog_path.insert(0, viterbi_df.index[traceback_loc])
+    traceback_prob.insert(
+        0, viterbi_df.iloc[viterbi_df.index.get_loc(traceback_loc), i])
+    dyn_prog_path.insert(0, traceback_loc)
     viterbi_traceback_df = viterbi_traceback_df.applymap(
         lambda x: "background-color: red",  # Color the path red
         subset=IndexSlice[[dyn_prog_path[0]], [viterbi_df.columns[i]]])
