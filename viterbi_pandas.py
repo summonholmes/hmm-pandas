@@ -60,7 +60,7 @@ viterbi_traceback_df.highlight_max(  # Highlight it
 
 ### Start traceback
 for i, observation in zip(  # Reverse enumerate with offset
-        range(len(observations) - 2, -1, -1), reversed(observations)):
+        range(len(observations) - 2, -1, -1), reversed(observations[1:])):
     # Isolate the previous location that gives the current probability
     traceback_loc = where(viterbi_df.iloc[:, i] *
                           trans_prob_df.loc[:, dyn_prog_path[0]] *
