@@ -1,6 +1,5 @@
 """Based off of https://en.wikipedia.org/wiki/Viterbi_algorithm"""
 from pandas import DataFrame, IndexSlice
-from numpy import where
 from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
