@@ -57,11 +57,6 @@ dyn_prog_path = [viterbi_df.iloc[:, -1].idxmax()]  # And its index
 viterbi_traceback_df.highlight_max(  # Highlight it
     color="red", subset=IndexSlice[[viterbi_df.columns[-1]]])
 
-traceback_loc = viterbi_df.loc[
-    viterbi_df.iloc[:, 3] * trans_prob_df.loc[:, dyn_prog_path[0]] *
-    emit_prob_df.loc[dyn_prog_path[0], observations[4]] == traceback_prob[
-        0]].index[0]
-
 ### Start traceback
 for i, observation in zip(  # Reverse enumerate with offset
         range(len(observations) - 2, -1, -1), reversed(observations[1:])):
