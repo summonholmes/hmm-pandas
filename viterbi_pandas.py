@@ -1,4 +1,3 @@
-"""Based off of https://en.wikipedia.org/wiki/Viterbi_algorithm"""
 from pandas import DataFrame, IndexSlice
 from seaborn import light_palette
 
