@@ -1,11 +1,11 @@
 """Based off of https://en.wikipedia.org/wiki/Viterbi_algorithm"""
 from pandas import DataFrame, IndexSlice
-from numpy import where, max as npmax
+from numpy import where, max as npmax, sum as npsum
 from seaborn import light_palette
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Eating Pizza", "Browsing Reddit", "Drinking Mountain Dew",
-                "Eating Doritos", "Wearing Trenchcoat & Fedora") * 10
+                "Eating Doritos", "Wearing Trenchcoat & Fedora")
 hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
 
@@ -42,9 +42,9 @@ viterbi_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
 ### Start dynammic programming
 for i, observation in enumerate(observations[1:]):
     max_trans_prob_df = trans_prob_df.multiply(  # Offset by 1
-        viterbi_df.iloc[:, i], axis="index").apply(
-            npmax, axis=0)  # Vectorize maximums for the previous column
-    viterbi_df["Probability {}".format(  # Each column all in one go
+        viterbi_df.iloc[:, i], axis="index").apply(npmax)
+    # Vectorize maximums for the previous column
+    viterbi_df["Probability {}".format(  # Then create column all at once
         i + 1)] = max_trans_prob_df * emit_prob_df.loc[:, observation]
 
 ### Provide the entire matrix with highest values darkest
