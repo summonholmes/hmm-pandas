@@ -65,8 +65,8 @@ for i, observation in zip(  # Reverse enumerate with offset
         emit_prob_df.loc[dyn_prog_path[0], observation] == traceback_prob[
             0]].index[0]
     # Record the value and its state
-    traceback_prob.insert(
-        0, viterbi_df.iloc[viterbi_df.index.get_loc(traceback_loc), i])
+    traceback_prob.insert(0,
+                          viterbi_df.loc[traceback_loc, viterbi_df.columns[i]])
     dyn_prog_path.insert(0, traceback_loc)
     viterbi_traceback_df = viterbi_traceback_df.applymap(
         lambda x: "background-color: red",  # Color the path red
