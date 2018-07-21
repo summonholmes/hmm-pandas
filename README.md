@@ -1,5 +1,5 @@
 # hmm-pandas
-Regarding the Hidden Markov Model (HMM) and its associated algorithms, much of the research, materials, and implementations are mathematically convoluted.  This project presents the HMM and its algorithms using Pandas dataframes.  The objectives of this project are to demonstrate the HMM using a simple, sane Python implementation; to make the HMM understandable to anyone; to create visually appealing representations; and to improve the performance of existing implementations.  In addition, detailed comments are provided throughout the code.
+Regarding the Hidden Markov Model (HMM) and its algorithms, much of the research, materials, and implementations are mathematically convoluted.  This project presents the HMM and its algorithms using Pandas dataframes.  The objectives of this project are to demonstrate the HMM using a simple, sane Python implementation; to make the HMM understandable to anyone; to create visually appealing representations; and to improve the performance of existing implementations.  In addition, detailed comments are provided throughout the code.
 
 ## Viterbi
 ![alt text](https://raw.githubusercontent.com/summonholmes/hmm-pandas/master/viterbi.png)
