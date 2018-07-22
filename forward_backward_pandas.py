@@ -1,10 +1,13 @@
 from pandas import DataFrame
+from itertools import cycle
 
 ### Initialize tuples of conditions.  Observations are the input
 observations = ("Wearing Trenchcoat & Fedora", "Browsing Reddit",
                 "Drinking Mountain Dew", "Eating Doritos", "Eating Pizza")
 hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
+colors = cycle(["red", "orange", "green", "blue", "purple"])
+colors_dict = {}  # To allow larger observation sequences
 
 ### Probability of transition
 trans_prob_df = DataFrame(
@@ -36,14 +39,16 @@ start_probs = DataFrame(
 
 ### Initialize forward dataframe
 forward_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
+colors_dict[forward_df.columns[0]] = next(colors)
 
 ### Start forward part - 1st pass
 for i, observation in enumerate(observations[1:]):
     previous_forward_sum = trans_prob_df.iloc[:, :-1].multiply(
         forward_df.iloc[:, i], axis="index").sum()
     forward_df["({}) {}".format(
-        i + 1,
+        i + 1,  # Very similar to Viterbi, but sum
         observation)] = previous_forward_sum * emit_prob_df.loc[:, observation]
+    colors_dict[forward_df.columns[i + 1]] = next(colors)
 
 ### Calculate forward probability
 forward_prob = (forward_df.iloc[:, -1] * trans_prob_df.iloc[:, -1]).sum()
@@ -58,7 +63,7 @@ backward_df = DataFrame(
 ### Start backward part - 2nd pass
 for i, observation in zip(
         range(len(observations) - 2, -1, -1), reversed(observations[1:])):
-    backward_df.insert(
+    backward_df.insert(  # Similar to forward and Viterbi traceback
         0,  # Countdown to 2nd observation
         "({}) {}".format(i, observations[i]),
         (backward_df.iloc[:, 0] * trans_prob_df.iloc[:, :-1] *
@@ -72,12 +77,8 @@ backward_prob = (backward_df.iloc[:, 0] * start_probs.iloc[:, 0] *
 posterior_df = (forward_df * backward_df).apply(lambda x: x / forward_prob)
 
 ### Stylized output for reading top-down
-colors = {  # For mapping colors to columns
-    posterior_df.columns[i]: color
-    for i, color in enumerate(["red", "orange", "green", "blue", "purple"])
-}
 posterior_df_style = posterior_df.style.apply(  # Color the columns
-    lambda x: ["background-color: {}".format(colors[x.name])] * len(x))
+    lambda x: ["background-color: {}".format(colors_dict[x.name])] * len(x))
 
 ### Print final results
 print("The observations:", ", ".join(observations))
