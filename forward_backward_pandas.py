@@ -2,12 +2,13 @@ from pandas import DataFrame
 from itertools import cycle
 
 ### Initialize tuples of conditions.  Observations are the input
-observations = ("Wearing Trenchcoat & Fedora", "Browsing Reddit",
-                "Drinking Mountain Dew", "Eating Doritos", "Eating Pizza")
+observations = (  # Modify, add, remove with any key in emit_prob_df
+    "Wearing Trenchcoat & Fedora", "Browsing Reddit", "Drinking Mountain Dew",
+    "Eating Doritos", "Eating Pizza")
 hidden_states = ("Depressed", "Confident", "Tired", "Hungry",
                  "Thirsty")  # The confounding factors
-colors = cycle(["red", "orange", "green", "blue", "purple"])
-colors_dict = {}  # To allow larger observation sequences
+colors = cycle(["red", "orange", "green", "blue", "purple"])  # Rainbow effect
+colors_dict = {}  # Each observation gets a color
 
 ### Probability of transition
 trans_prob_df = DataFrame(
@@ -39,50 +40,55 @@ start_probs = DataFrame(
 
 ### Initialize forward dataframe
 forward_df = start_probs.multiply(emit_prob_df[observations[0]], axis="index")
-colors_dict[forward_df.columns[0]] = next(colors)
+colors_dict[forward_df.columns[0]] = next(colors)  # For final colored output
 
 ### Start forward part - 1st pass
-for i, observation in enumerate(observations[1:]):
+for i, observation in enumerate(observations[1:]):  # Same as viterbi
     previous_forward_sum = trans_prob_df.iloc[:, :-1].multiply(
         forward_df.iloc[:, i], axis="index").sum()
     forward_df["({}) {}".format(
-        i + 1,  # Very similar to Viterbi, but sum
+        i + 1,  # Similar to Viterbi but sum, line below is identical
         observation)] = previous_forward_sum * emit_prob_df.loc[:, observation]
-    colors_dict[forward_df.columns[i + 1]] = next(colors)
+    colors_dict[forward_df.columns[i + 1]] = next(colors)  # Update colors
 
 ### Calculate forward probability
+# Multiply last columns and sum the result
 forward_prob = (forward_df.iloc[:, -1] * trans_prob_df.iloc[:, -1]).sum()
 
 ### Initialize backward dataframe
 backward_df = DataFrame(
-    data={
+    data={  # The last column of trans_prob_df
         "({}) {}".format(len(observations) - 1, observations[-1]):
         trans_prob_df.iloc[:, -1]
     })
 
 ### Start backward part - 2nd pass
-for i, observation in zip(
+for i, observation in zip(  # Same as viterbi
         range(len(observations) - 2, -1, -1), reversed(observations[1:])):
-    backward_df.insert(  # Similar to forward and Viterbi traceback
-        0,  # Countdown to 2nd observation
+    backward_df.insert(  # Countdown to 2nd observation
+        0,  # The left-most column updates itself by multiplying
+        # The entire trans_prob_df and emit_prob_df that matches observation
         "({}) {}".format(i, observations[i]),
         (backward_df.iloc[:, 0] * trans_prob_df.iloc[:, :-1] *
-         emit_prob_df.loc[:, observation]).sum(axis=1))
+         emit_prob_df.loc[:, observation]).sum(axis=1))  # Horizontal sum
 
 ### Calculate backward probability: Should == forward probability
+# Now use beginning values, opposite of forward
 backward_prob = (backward_df.iloc[:, 0] * start_probs.iloc[:, 0] *
                  emit_prob_df.loc[:, observations[0]]).sum()
 
-### Now merge the two
+### Now merge the two - vectorized multiplication of all and divide by either
+# forward or backward probability
 posterior_df = (forward_df * backward_df).apply(lambda x: x / forward_prob)
 
 ### Stylized output for reading top-down
 posterior_df_style = posterior_df.style.apply(  # Color the columns
     lambda x: ["background-color: {}".format(colors_dict[x.name])] * len(x))
 
-### Print final results
+### Print final results - table should vertically sum to 1
 print("The observations:", ", ".join(observations))
-print("The summed forward probability:", forward_prob)
-print("The summed backward probability:", backward_prob)
-print("Posterior marginals are read top-down")
+print("The most likely non-sequential hidden states are:")
+print(posterior_df.idxmax())
+print("The summed forward & backward probabilities: ", forward_prob, ",",
+      backward_prob)
 posterior_df_style.highlight_max(color="black")  # Highlight maximums
