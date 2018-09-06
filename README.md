@@ -7,7 +7,7 @@ Regarding the Hidden Markov Model (HMM) and its algorithms, much of the research
 ## Forward-Backward
 ![alt text](https://raw.githubusercontent.com/summonholmes/hmm-pandas/master/forward_backward.png)
 
-For the Viterbi and Forward-Backward algorithms, a set of observations and hidden states are defined.  The observations describe your average programmer and his outward appearance.  What is the programmer wearing, eating, or drinking?  The hidden states describe how the programmer is feeling.  Does the programmer have a high and mighty attitude?  When provided a sequence of observations, the 'viterbi_pandas.py' script will predict the most likely sequence of hidden states for the programmer, while the 'forward_backward_pandas.py' script will calculate the posterior marginals for all hidden states
+For the Viterbi and Forward-Backward algorithms, a set of observations and hidden states are defined.  The observations describe your average programmer and his outward appearance.  What is the programmer wearing, eating, or drinking?  The hidden states describe how the programmer is feeling.  Does the programmer have a high and mighty attitude?  When provided a sequence of observations, the 'viterbi_pandas.py' script will predict the most likely sequence of hidden states for the programmer, while the 'forward_backward_pandas.py' script will calculate the posterior marginals for all hidden states.  Need more verbosity?  Use the 'adv' versions!
 
 Unlike previous implementations, this project utilizes a vectorized approach towards dynamic programming.  Therefore, the scripts run much faster and more efficiently than implementations that loop continuously.  The only source of iteration is the sequence of observations.
 
