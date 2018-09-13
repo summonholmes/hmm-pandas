@@ -122,7 +122,7 @@ backward_prob = (backward_df.iloc[:, 0] * start_probs.iloc[:, 0] *
 
 # Now merge the two - vectorized multiplication of all and divide by either
 # forward or backward probability
-posterior_df = (forward_df * backward_df).apply(lambda x: x / forward_prob)
+posterior_df = (forward_df * backward_df) / forward_prob
 
 # Stylized output for reading top-down
 posterior_df_style = posterior_df.style.apply(  # Color the columns
